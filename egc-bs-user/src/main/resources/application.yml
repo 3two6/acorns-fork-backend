@@ -1,0 +1,45 @@
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: true
+    properties:
+      hibernate.show_sql: false
+      hibernate.dialect.storage_engine: innodb
+  datasource:
+    url: jdbc:mysql://localhost:3306/egc-backend?ssl-mode=REQUIRED
+    username: root
+    password:
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+server:
+  compression:
+    enabled: false
+  http2:
+    enabled: true
+  port: 8080
+  servlet:
+    context-path: /api
+jwt-security:
+  secret: PseudoSecret-Pseudosecret-IMPORTANT-Please-Use-Ur-Own-Key-IMPORTANT
+  expiration-time: 365
+management:
+  endpoints:
+    #enabled-by-default: false
+    web:
+      exposure:
+        include: "health,info,env"
+
+data:
+  init: true
+
+userfront:
+  uploadpath: D\avatar\
+  movie_service_path: http://localhost:81/

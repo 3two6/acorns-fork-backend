@@ -5,6 +5,7 @@ import com.egc.baseapi.pojo.BaseModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
 
+
 abstract class BaseController<S: BaseService<M, T, RealModel>,M: BaseRepository<T>,T:BaseModel,RealModel:T> {
 
     @Autowired

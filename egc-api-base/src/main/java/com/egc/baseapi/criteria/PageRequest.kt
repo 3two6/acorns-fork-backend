@@ -3,13 +3,13 @@ package com.egc.baseapi.criteria
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(name="This is a model for researching through pages")
+@Schema(description="This is a model for researching through pages", name="PageRequest")
 open class PageRequest:IPageRequest {
 
-    @Schema(name="Start from page number 1")
+    @Schema(description="Start from page number 1", name="pageNo")
     override var pageNo=1
 
-    @Schema(name="Page size default is 10")
+    @Schema(description="Page size default is 10", name="pageSize")
     override var pageSize=10
 
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.PersistenceContext
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
+import org.springframework.stereotype.Service
 import org.springframework.util.ResourceUtils
 import org.springframework.web.multipart.MultipartFile
 import java.io.BufferedOutputStream
@@ -18,6 +19,7 @@ import java.lang.Exception
 import java.time.LocalDateTime
 import java.util.Date
 
+@Service
 abstract class BaseService<M : BaseRepository<T>, T : BaseModel, RealModel : T> {
 
     @Autowired
@@ -116,7 +118,7 @@ abstract class BaseService<M : BaseRepository<T>, T : BaseModel, RealModel : T> 
     open fun createOrUpdateOneWithModel(model: T, request: HttpServletRequest?): T {
         val ip = request?.let { IPUtils.getIpAddr(request) } ?: "modified by coder"
         return if (model.id == null) {
-//            추가
+//            create
             model.createdIp = ip
             model.updatedIp = ip
             model.deleted = false
@@ -124,7 +126,7 @@ abstract class BaseService<M : BaseRepository<T>, T : BaseModel, RealModel : T> 
             model.updatedAt = LocalDateTime.now()
             repository.saveAndFlush(model)
         } else {
-//            수정
+//            update
             model.updatedIp = ip
             model.updatedAt = LocalDateTime.now()
             this.repository.saveAndFlush(model)

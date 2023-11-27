@@ -4,33 +4,35 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Pattern
 
 
-@Schema(name="Used for additional searches")
+@Schema(description="Used for additional searches", name="TypeValue")
 class TypeValue{
-    @Schema(name="Types",allowableValues=["ids,...."])
+    @Schema(description="Types",allowableValues=["ids,...."], name="type")
     var type:String?=null
 
-    @Schema(name="String value according to the types.",allowableValues=["ids,...."])
+    @Schema(description="String value according to the types.",allowableValues=["ids,...."], name="value")
     var value:Any?=null
 
-    @Schema(name="Used for +, -.")
+    @Schema(description="Used for +, -.", name="sort")
     var sort:String?=null
 }
 
 
-@Schema(name="This is a model for researching through pages")
+@Schema(description="This is a model for researching through pages", name="CommonPageRequest")
 class CommonPageRequest<T>{
-    @Schema(name="Start from page number 1")
+    @Schema(description="Start from page number 1", name="pageNo")
     var pageNo=1
 
-    @Schema(name="Page size default value is 10")
+    @Schema(description="Page size default value is 10", name="pageSize")
     var pageSize=10
 
-    @Schema(name="Additional page model", allowableValues=[""+"{field:{type}}"])
+    @Schema(description="Additional page model", allowableValues=[""+"{field:{type}}"], name="more")
     var more:Map<String, TypeValue>?=null
 
-    @Schema(name="Search data type.")
+    @Schema(description="Search data type.", name="filter")
     var filter:T?=null
 
+
+    @Schema(description="Operation sort data.", name="sort")
     var sort:@Pattern(regexp="^([+]|[-])[a-zA-Z]+$")String?="-updatedAt"
     var seek=-1
 

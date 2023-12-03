@@ -16,7 +16,7 @@ class UploadController {
     lateinit var uploadService: UploadService
 
     @PostMapping("/upload")
-    @Operation(summary =  "file upload")
+    @Operation(summary =  "file upload",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     fun uploadImage(@RequestParam("file") fileInfo:MultipartFile, request: HttpServletRequest?):String?{
         try {
             return this.uploadService.saveAttachment(fileInfo,"upload",request)

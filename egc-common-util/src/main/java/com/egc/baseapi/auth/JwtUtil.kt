@@ -1,29 +1,53 @@
 package com.egc.baseapi.auth
 
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.core.Authentication
 import java.util.*
+import javax.crypto.SecretKey
 
 class JwtUtil {
 
     companion object{
-        var SININGKEY="poppy_branch_ok"
-        const val PREFIX="Bearer"
+        var SININGKEY="PseudoSecret-Pseudosecret-IMPORTANT-Please-Use-Ur-Own-Key-IMPORTANT"
+        var KEY:SecretKey?= Keys.hmacShaKeyFor(SININGKEY.toByteArray())
+        const val PREFIX="Bearer "
         const val authHeaderField="Authorization"
 
         const val EXPIRATIONTIME:Long=86_400_000L // 1 day in milliseconds
 
         fun getToken(subject:String):String?{
-            return Jwts.builder().setSubject(subject).setExpiration(Date(System.currentTimeMillis()+ EXPIRATIONTIME)).signWith(SignatureAlgorithm.ES512,
-                SININGKEY).compact()
+            return Jwts.builder().subject(subject).expiration(Date(System.currentTimeMillis()+ EXPIRATIONTIME))
+                .signWith(KEY).compact()
         }
 
-        fun parseToken(request: HttpServletRequest):String?{
+        fun parseToken(request: HttpServletRequest): Jws<Claims>? {
             val token=request.getHeader(authHeaderField)?:throw BadCredentialsException("Please signin.")
-            return Jwts.parser().setSigningKey(SININGKEY).parseClaimsJws(token.replace(PREFIX,"")).body.subject
+            val claims=Jwts.parser()
+                .verifyWith(KEY)
+                .clockSkewSeconds(3 * 60)
+                .build()
+                .parseSignedClaims(token.replace(PREFIX, ""))
+            return claims
+        }
+
+        fun createToken(authentication: Authentication): String {
+            val authClaims: MutableList<String> = mutableListOf()
+            authentication.authorities?.let { authorities ->
+                authorities.forEach { claim -> authClaims.add(claim.toString()) }
+            }
+
+            return Jwts.builder()
+                .subject(authentication.name)
+                .claim("auth", authClaims)
+                .expiration(Date(System.currentTimeMillis()+ EXPIRATIONTIME))
+                .signWith(KEY)
+                .compact()
         }
 
         fun getTokenFromRequest(request: HttpServletRequest):String{

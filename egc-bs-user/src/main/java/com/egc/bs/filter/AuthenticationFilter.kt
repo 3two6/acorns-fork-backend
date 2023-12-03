@@ -6,8 +6,8 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -31,6 +31,7 @@ class AuthenticationFilter:GenericFilterBean() {
 
         val token =request.getHeader(JwtUtil.authHeaderField)
         if (token==null||token==""){
+//            response.sendError(401, "Please sign in")
             filterChain?.doFilter(request, response)
         } else{
             try {
@@ -47,8 +48,8 @@ class AuthenticationFilter:GenericFilterBean() {
     @Throws(AccessDeniedException::class)
     fun getAuthentication(request:HttpServletRequest):Authentication?{
         val username=JwtUtil.parseToken(request)
-        val user=username?.let {
-            userService.getByEmail(it)
+        val user=username.let {
+            userService.getByEmail(username?.payload?.subject)
         }
 
         return UsernamePasswordAuthenticationToken(user,null,null)

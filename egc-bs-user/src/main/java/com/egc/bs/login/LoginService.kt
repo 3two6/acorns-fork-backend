@@ -42,13 +42,13 @@ class LoginService {
 
 
     fun register(userInfo: UserEntity, request: HttpServletRequest, response: HttpServletResponse):UserEntity?{
-//        val info=userInfo.email?.let {
-//            this.userService.getByEmail(it)
-//        }
-//        if (info!=null){
-//            response.sendError(400,"You are already sign up")
-//            return null
-//        }
+        val info=userInfo.email?.let {
+            this.userService.getByEmail(it)
+        }
+        if (info!=null){
+            response.sendError(400,"You are already sign up")
+            return null
+        }
         userInfo.password=BCryptPasswordEncoder().encode(userInfo.password)
         return this.userService.createOrUpdateOneWithModel(userInfo,request)
     }

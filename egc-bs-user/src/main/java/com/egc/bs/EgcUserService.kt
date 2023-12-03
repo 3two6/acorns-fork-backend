@@ -1,13 +1,14 @@
 package com.egc.bs
 
 import com.egc.bs.run.UserInitDataService
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
-import io.swagger.v3.oas.models.info.Info
+import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.annotation.Bean
@@ -15,7 +16,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @SpringBootApplication
 @EnableTransactionManagement
-open class EgcUserService : CommandLineRunner {
+@OpenAPIDefinition(info = Info(
+    title = "EasyGrowCrypto Backend API",
+    version = "1.0.0-SNAPSHOT",
+    description = "Documentation APIs v1.0"
+)
+)
+private open class EgcUserService : CommandLineRunner {
 
     @Autowired
     lateinit var initDataService: UserInitDataService
@@ -27,11 +34,12 @@ open class EgcUserService : CommandLineRunner {
     @Bean
     open fun customOpenAPI(): OpenAPI {
         return OpenAPI()
-            .components(Components())
-            .info(
-                Info()
-                    .title("EasyGrowCrypto API")
-                    .description(" Spring Boot RESTful service .")
+            .components(
+                Components()
+                    .addSecuritySchemes(
+                        "bearer-key",
+                        SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+                    )
             )
     }
 

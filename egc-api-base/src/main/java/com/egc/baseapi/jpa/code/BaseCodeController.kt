@@ -15,7 +15,7 @@ abstract class BaseCodeController<S:BaseCodeService<M, T, RealModel>, M:BaseCode
 
     @PostMapping("/add_code")
     @ResponseBody
-    @Operation(summary ="add code")
+    @Operation(summary ="add code",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     fun addCategory(@RequestBody model:T, request: HttpServletRequest, auth:Authentication):T{
         model.code=this.baseService.getCodeOf(model)
         model.orderCode= model.hashCode().toString()
@@ -25,7 +25,7 @@ abstract class BaseCodeController<S:BaseCodeService<M, T, RealModel>, M:BaseCode
 
     @PostMapping("/order_up")
     @ResponseBody
-    @Operation(summary ="order code up")
+    @Operation(summary ="order code up",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     fun orderUp(@RequestBody model: T, request: HttpServletRequest, auth: Authentication):MutableList<T>?{
         return this.baseService.orderUp(model, request)
     }
@@ -33,7 +33,7 @@ abstract class BaseCodeController<S:BaseCodeService<M, T, RealModel>, M:BaseCode
 
     @PostMapping("/order_down")
     @ResponseBody
-    @Operation(summary ="down category")
+    @Operation(summary ="down category",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     fun orderDown(@RequestBody model: T,request: HttpServletRequest, auth: Authentication):MutableList<T>?{
         return this.baseService.orderDown(model, request)
     }

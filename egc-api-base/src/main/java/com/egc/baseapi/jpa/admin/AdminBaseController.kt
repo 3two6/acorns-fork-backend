@@ -25,7 +25,7 @@ import java.lang.Exception
     Retrieve all list
     @return All entity list
     */
-    @Operation(summary ="all list")
+    @Operation(summary ="all list",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/list")
     open fun retrieveAll(
         @RequestParam(value = "delete", required = false, defaultValue = "false") delete: Boolean?,
@@ -43,7 +43,7 @@ import java.lang.Exception
     @param id unique identifier
     @return  entity
 */
-    @Operation(summary ="retrieve one entity")
+    @Operation(summary ="retrieve one entity",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/{id}")
     fun retrieveOne(@PathVariable("id") id: Long, auth: Authentication?): T? {
         this.getReadRoleList()?.let {
@@ -57,7 +57,7 @@ import java.lang.Exception
     @param model entity u wanna add and edit
     @return Unique identification|Success or not
     */
-    @Operation(summary ="add and update entity")
+    @Operation(summary ="add and update entity",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping
     @Throws(Exception::class)
     open fun createOrUpdateOne(@RequestBody model: T, request: HttpServletRequest, auth: Authentication?): T {
@@ -73,7 +73,7 @@ import java.lang.Exception
     @parma commonPageRequest pageInfo
     @return pageable entity
     */
-    @Operation(summary ="retrieve entity by page")
+    @Operation(summary ="retrieve entity by page",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/page")
     open fun retrieveByPage(@RequestBody commonPageRequest: CommonPageRequest<T>, auth:Authentication?):PageResult<T>{
         this.getReadRoleList()?.let{
@@ -84,7 +84,7 @@ import java.lang.Exception
 
 
 
-    @Operation(summary ="updates and additions are carried out in array. u can also mix update and additions")
+    @Operation(summary ="updates and additions are carried out in array. u can also mix update and additions",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/batch")
     fun createOrUpdateModels(@RequestBody models:MutableList<T>, request: HttpServletRequest,auth:Authentication?):List<T>{
         this.getWriteRoleList()?.let{
@@ -98,7 +98,7 @@ import java.lang.Exception
     @param id Unique identifier ot the entity to be deleted
     @return success or failure
 */
-    @Operation(summary ="delete")
+    @Operation(summary ="delete",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @DeleteMapping("/{id}")
     open fun deleteOne(@PathVariable("id")id:Long, auth:Authentication?,request: HttpServletRequest):T?{
         this.getWriteRoleList()?.let{
@@ -109,7 +109,7 @@ import java.lang.Exception
     }
 
 
-    @Operation(summary ="retrieve entities by ids")
+    @Operation(summary ="retrieve entities by ids",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/ids")
     fun getByIds(@RequestBody ids:List<Long>,auth:Authentication?):List<T>{
         this.getReadRoleList()?.let{
@@ -120,7 +120,7 @@ import java.lang.Exception
 
 
 
-    @Operation(summary ="delete all entities")
+    @Operation(summary ="delete all entities",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @DeleteMapping("/all")
     fun deleteAll(auth:Authentication?){
         this.getWriteRoleList()?.let{
@@ -132,7 +132,7 @@ import java.lang.Exception
     /*
     * 식별자에 의한 삭제
     * */
-    @Operation(summary ="retrieve entity by id")
+    @Operation(summary ="retrieve entity by id",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @DeleteMapping("/ids")
     open fun deleteIds(@RequestBody ids:MutableList<Long>, auth:Authentication?){
         this.getWriteRoleList()?.let{
@@ -142,7 +142,7 @@ import java.lang.Exception
     }
 
 
-    @Operation(summary ="retrieve all entities with real ")
+    @Operation(summary ="retrieve all entities with real ",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/listreal")
     fun retrieveAllWithReal(@RequestParam(value = "delete", required = false, defaultValue = "0")delete: Boolean?,auth: Authentication):List<T>{
         this.getReadRoleList()?.let{
@@ -152,7 +152,7 @@ import java.lang.Exception
     }
 
 
-    @Operation(summary ="retrieve all entities by page with real")
+    @Operation(summary ="retrieve all entities by page with real",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/pagereal")
     open fun retrieveByPagewithReal(@RequestBody commonPageRequest: CommonPageRequest<T>,auth: Authentication?):PageResult<RealModel>{
         this.getReadRoleList()?.let{
@@ -162,7 +162,7 @@ import java.lang.Exception
     }
 
 
-    @Operation(summary ="retrieve entity by id")
+    @Operation(summary ="retrieve entity by id",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/real/{id}")
     fun retrieveByOne(@PathVariable("id")id:Long, auth: Authentication?):RealModel?{
         this.getReadRoleList()?.let{

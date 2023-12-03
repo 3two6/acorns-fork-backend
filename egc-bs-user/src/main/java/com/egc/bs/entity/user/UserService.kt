@@ -5,7 +5,6 @@ import com.egc.baseapi.jpa.base.BaseService
 import com.egc.baseapi.util.MyObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -37,12 +36,6 @@ class UserService:BaseService<UserRepository, UserEntity, RealUserModel>() {
     }
 
     fun getByEmail(userEmail:String?):RealUserModel?{
-//        val info=userId?.let {
-//            this.repository.findByEmail(it, false)
-//        }
-//        if (info!=null)
-//            if (info.size>0)
-//                return this.getRealModel(info.get(0))
         val info=userEmail?.let {
             this.repository.findByEmail(it)
         }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name="manage message")
 class MessageController:UserBaseController<MessageService, MessageRepository, MessageEntity, RealMessageModel>() {
 
-    @Operation(summary = "Creat and update")
+    @Operation(summary = "Creat and update",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping
     @Throws(Exception::class)
     fun createOrUpdateOne(@RequestBody model:MessageEntity, request: HttpServletRequest, auth:Authentication?):MessageEntity{
@@ -27,7 +27,7 @@ class MessageController:UserBaseController<MessageService, MessageRepository, Me
         return this.baseService.createOrUpdateOneWithModel(model,request)
     }
 
-    @Operation(summary = "Delete")
+    @Operation(summary = "Delete",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @DeleteMapping("/{id}")
     fun deleteOne(@PathVariable("id") id:Long, auth: Authentication?, request: HttpServletRequest):MessageEntity?{
         return this.baseService.delete(id, auth, request)

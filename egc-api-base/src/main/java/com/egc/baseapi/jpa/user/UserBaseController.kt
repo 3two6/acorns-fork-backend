@@ -20,7 +20,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     * retrieve all entities
     * @return all entities
     * */
-    @Operation(summary ="all entities")
+    @Operation(summary ="all entities",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/list")
     open fun retrieveAll(@RequestParam(value = "delete", required = false, defaultValue = "false")delete: Boolean, auth:Authentication?):List<T>{
         this.getReadRoleList()?.let {
@@ -34,7 +34,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     * @parma id unique identifier
     * @return entity
     * */
-    @Operation(summary ="retrieve entity by id")
+    @Operation(summary ="retrieve entity by id",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("{id}")
     fun retrieveOne(@PathVariable("id")id:Long, auth: Authentication?):T?{
         this.getReadRoleList()?.let{
@@ -49,7 +49,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     * @param commonPageRequest pageInfo
     * @return pageable entity list
     * */
-    @Operation(summary ="retrieve entities by page")
+    @Operation(summary ="retrieve entities by page",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/page")
     open fun retrieveByPage(@RequestBody commonPageRequest: CommonPageRequest<T>, auth: Authentication?):PageResult<T>{
         this.getReadRoleList()?.let{
@@ -59,7 +59,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     }
 
 
-    @Operation(summary ="retrieve entities by ids")
+    @Operation(summary ="retrieve entities by ids",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/ids")
     fun getByIds(@RequestBody ids:List<Long>, auth: Authentication?):List<T>{
         this.getReadRoleList()?.let {
@@ -69,7 +69,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     }
 
 
-    @Operation(summary ="retrieve all entities with real")
+    @Operation(summary ="retrieve all entities with real",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/listreal")
     fun retrieveAllWithReal(@RequestParam(value = "delete", required = false, defaultValue = "0")delete: Boolean?,auth: Authentication?):List<T>{
         this.getReadRoleList()?.let {
@@ -80,7 +80,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     }
 
 
-    @Operation(summary ="retrieve entities by page with real")
+    @Operation(summary ="retrieve entities by page with real",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("/pagereal")
     open fun retrieveByPagewithRealModel(@RequestBody commonPageRequest: CommonPageRequest<T>, auth: Authentication?):PageResult<RealModel>{
         this.getReadRoleList()?.let {
@@ -90,7 +90,7 @@ abstract class UserBaseController<S:BaseService<M,T, RealModel>, M:BaseRepositor
     }
 
 
-    @Operation(summary ="retrieve entity by id with real")
+    @Operation(summary ="retrieve entity by id with real",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/real/{id}")
     fun retrieveByOne(@PathVariable("id") id:Long, auth: Authentication):RealModel?{
         this.getReadRoleList()?.let {

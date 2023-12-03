@@ -8,6 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 open class UserSpringWebConfig: WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
-        registry.addMapping("/**").allowedMethods("HEAD","GET","PUT", "POST", "DELETE","PATCH").allowedHeaders("*").exposedHeaders("Accept-Ranges", "Content-Encoding", "Content-Length", "Content-Type")
+        registry
+            .addMapping("/**")
+            .allowedMethods("HEAD","GET","PUT", "POST", "DELETE","PATCH")
+            .allowedHeaders("*")
+            .exposedHeaders("Accept-Ranges", "Content-Encoding", "Content-Length", "Content-Type")
     }
 }

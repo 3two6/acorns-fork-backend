@@ -37,6 +37,17 @@ management:
       exposure:
         include: "health,info,env"
 
+# Swagger configuration
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html # swagger-ui custom path
+  api-docs:
+    path: /v3/api-docs.yaml
+  enable-spring-security: true
+  show-actuator: true
+
+
+# Custom configuration
 data:
   init: true
 

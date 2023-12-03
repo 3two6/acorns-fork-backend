@@ -19,20 +19,20 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name="User")
 class UserController:UserBaseController<UserService, UserRepository, UserEntity, RealUserModel>() {
 
-    @Operation(summary = "rest password of user")
+    @Operation(summary = "rest password of user",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @GetMapping("/password_reset/{id}")
     fun resetPassword(@PathVariable("id") id:Long, auth:Authentication?):UserEntity?{
         return this.baseService.resetPassword(id)
     }
 
 
-    @Operation(summary = "verify")
+    @Operation(summary = "verify",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("verify")
     fun login(request: HttpServletRequest, response: HttpServletResponse, auth: Authentication):RealUserModel{
         return this.baseService.verify(request, response, auth)
     }
 
-    @Operation(summary = "update")
+    @Operation(summary = "update",security = [io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-key")])
     @PostMapping("update")
     fun updateUser(@RequestBody newUser:UserChangeModel, request: HttpServletRequest, response: HttpServletResponse, auth: Authentication):UserEntity?{
         return this.baseService.changeUser(newUser, request, response, auth)

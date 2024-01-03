@@ -24,7 +24,7 @@ server:
     enabled: false
   http2:
     enabled: true
-  port: 8090
+  port: 8080
   servlet:
     context-path: /api
 jwt-security:
